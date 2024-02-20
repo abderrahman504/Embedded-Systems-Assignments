@@ -1,11 +1,12 @@
-
-
-int button_pin = 11, green_led = 12, red_led = 13, green_state = LOW, red_state = HIGH;
+int button_pin = 2, green_led = 12, red_led = 13, green_state = LOW, red_state = HIGH;
 boolean button_held = false;
 
 void setup() {
+  	pinMode(button_pin, INPUT);
     pinMode(green_led, OUTPUT);
     pinMode(red_led, OUTPUT);
+    digitalWrite(red_led, red_state);
+  	digitalWrite(green_led, green_state);
 }
 
 void loop() {
