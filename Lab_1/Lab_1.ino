@@ -1,33 +1,26 @@
-int button_pin = 2, green_led = 12, red_led = 13, green_state = LOW, red_state = HIGH;
-boolean button_held = false;
+int button_pin = 2, green_led = 12, red_led = 13;
+
 
 void setup() {
   	pinMode(button_pin, INPUT);
     pinMode(green_led, OUTPUT);
     pinMode(red_led, OUTPUT);
-    digitalWrite(red_led, red_state);
-  	digitalWrite(green_led, green_state);
+    Serial.begin(9600);
 }
 
 void loop() {
-  int button_state = debounce(button_pin);
-  //just pressed
-  if(!button_held && button_state == HIGH){
-    toggleLED();
-    button_held = true;
-  }
-  //just released
-  else if(button_held && button_state == LOW) button_held = false;
-  
+  int switch_state = debounce(button_pin);
+  digitalWrite(green_led, switch_state);
+  digitalWrite(red_led, !switch_state);
 }
 
-void toggleLED(){
-  red_state = !red_state;
-  green_state = !green_state;
+// void toggleLED(){
+//   red_state = !red_state;
+//   green_state = !green_state;
   
-  digitalWrite(red_led, red_state);
-  digitalWrite(green_led, green_state);
-}
+//   digitalWrite(red_led, red_state);
+//   digitalWrite(green_led, green_state);
+// }
 
 
 boolean debounce(int pin){
