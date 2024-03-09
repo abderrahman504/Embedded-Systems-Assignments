@@ -1,6 +1,7 @@
 // Modified version of (c) Michael Schoeffler 2017, http://www.mschoeffler.de
 
 #include "Wire.h"  // This library allows you to communicate with I2C devices.
+#include "EEPROM.h"
 
 const int MPU_ADDR = 0x68;  // I2C address of the MPU-6050. If AD0 pin is set to HIGH, the I2C address will be 0x69.
 
@@ -13,7 +14,8 @@ double angle_x, angle_y, angle_z;
 int OFFSET = 400;
 int Z_BIAS = 16000;
 int MAX = Z_BIAS * 2;
-bool EXCEL = false;
+
+int eeprom_start=-1, eeprom_end=0;
 
 double get_angle(int16_t num1, int16_t num2) {
   double angle = RAD_TO_DEG * (atan2(num1, num2));
@@ -61,12 +63,29 @@ void loop() {
 
   acceleration = map(acceleration, 0, MAX, 0, 360) + OFFSET * 3;
 
-  if (EXCEL) {
-    export_Excel(angle_x, angle_y, angle_z, acceleration);
-  } else {
-    plotter(angle_x, angle_y, angle_z, acceleration);
-  }
+  plotter(angle_x, angle_y, angle_z, acceleration);
 
+  //Writing latest reading in EEPROM
+  EEPROM.put(eeprom_end, acceleration);
+  eeprom_end = (eeprom_end+1) % 10;
+  if(eeprom_start == -1 || eeprom_start == eeprom_end) eeprom_start++;
+
+  //If collected 10 or more readings
+  if(eeprom_start == eeprom_end)
+  {
+    //Calculate steady state acceleration
+    double ss_acc = 0;
+    for(int i=0; i<10; i++)
+    {
+      double read;
+      EEPROM.get(i, read);
+      ss_acc += read;
+    }
+    ss_acc /= 10;
+    Serial.print("Steady state acceleration = ");
+    Serial.println(ss_acc);
+  }
+  
   // delay
   delay(2);
 }
@@ -80,15 +99,4 @@ void plotter(double angle_x, double angle_y, double angle_z, double acceleration
   Serial.print(angle_z);
   Serial.print("\tA:");
   Serial.println(acceleration);
-}
-
-void export_Excel(double angle_x, double angle_y, double angle_z, double acceleration) {
-  Serial.print(float(angle_x));
-  Serial.print(",");
-  Serial.print(float(angle_y));
-  Serial.print(",");
-  Serial.print(float(angle_z));
-  Serial.print(",");
-  Serial.print(float(acceleration));
-  Serial.println();
 }
