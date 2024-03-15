@@ -3,48 +3,47 @@
 
 namespace DataStructures
 {
-    template<class T> DynamicArray<T>::DynamicArray(int initialCapacity){
+    DynamicArray::DynamicArray(int initialCapacity){
         this->capacity = initialCapacity;
-        this->size = 0;
-        this->arr = new T[capacity];
+        this->_size = 0;
+        this->arr = new float[capacity];
     }
 
-    template<class T> DynamicArray<T>::~Queue() {delete[] this->arr;}
+    DynamicArray::~DynamicArray() {delete[] this->arr;}
 
-    template<class T> int DynamicArray<T>::size() {return this->size;}
+    int DynamicArray::size() {return this->_size;}
 
-    template<class T> void DynamicArray<T>::add(T val){
-        if(this->size == this->capacity){
+    void DynamicArray::add(float val){
+        if(this->_size == this->capacity){
             this->capacity *= 2;
-            T* temp = new T[capacity];
-            for(int i = 0; i < this->size; i++) temp[i] = this->arr[i];
+            float* temp = new float[capacity];
+            for(int i = 0; i < this->_size; i++) temp[i] = this->arr[i];
             delete[] this->arr;
             this->arr = temp;
         }
-        this->arr[this->size] = val;
-        this->size++;
-        return true;
+        this->arr[this->_size] = val;
+        this->_size++;
     }
 
-    template<class T> T DynamicArray<T>::remove(){
-        if(this->size == 0){
-            return NULL;
+    float DynamicArray::remove(){
+        if(this->_size == 0){
+            return 0;
         }
-        else if (this.size <= this->capacity/4)
+        else if (this->_size <= this->capacity/4)
         {
             this->capacity /= 2;
-            T* temp = new T[capacity];
-            for(int i = 0; i < this->size; i++) temp[i] = this->arr[i];
+            float* temp = new float[capacity];
+            for(int i = 0; i < this->_size; i++) temp[i] = this->arr[i];
             delete[] this->arr;
             this->arr = temp;
         }
-        this->size--;
-        return this->arr[this->size];
+        this->_size--;
+        return this->arr[this->_size];
     }
 
-    template<class T> T DynamicArray<T>::operator[](int index){
-        if(index < 0 || index >= this->size){
-            return NULL;
+    float DynamicArray::operator[](int index){
+        if(index < 0 || index >= this->_size){
+            return 0;
         }
         return this->arr[index];
     }

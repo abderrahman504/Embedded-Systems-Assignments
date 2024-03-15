@@ -1,52 +1,55 @@
 #ifndef DATASTRUCTURES_H
 #define DATASTRUCTURES_H
 
+// #include <Arduino.h>
+
+
 namespace DataStructures
 {
-    template<class T> class Stack{
+    class Stack{
         protected:
-            int size;
+            int _size;
             int capacity;
-            T* arr;
+            float* arr;
 
         public:
             Stack(int capacity);
             ~Stack();
             int size();
-            bool push(T val);
-            T pop();
-            T peak();
+            bool push(float val);
+            float pop();
+            float peak();
     };
 
-    template<class T> class Queue{
+    class Queue{
         protected:
-            int size;
+            int _size;
             int capacity;
-            T arr[];
+            float* arr;
             int head;
         
         public:
             Queue(int capacity);
             ~Queue();
             int size();
-            bool enqueue(T val);
-            T dequeue();
-            T peak();
+            bool enqueue(float val);
+            float dequeue();
+            float peak();
     };
 
-    template<class T> class DynamicArray{
+    class DynamicArray{
         protected:
-            int size;
+            int _size;
             int capacity;
-            T arr[];
+            float* arr;
         
         public:
             DynamicArray(int initialCapacity);
             ~DynamicArray();
             int size();
-            void add(T val);
-            T remove();
-            T operator[](int index);
+            void add(float val);
+            float remove();
+            float operator[](int index);
     };
 
 }

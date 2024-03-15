@@ -3,38 +3,38 @@
 
 namespace DataStructures
 {
-    template<class T> Stack<T>::Stack(int capacity){
+    Stack::Stack(int capacity){
         this->capacity = capacity;
-        this->size = 0;
-        this->arr = new T[capacity];
+        this->_size = 0;
+        this->arr = new float[capacity];
     }
 
-    template<class T> Stack<T>::~Stack() {delete[] this->arr;}
+    Stack::~Stack() {delete[] this->arr;}
 
-    template<class T> int Stack<T>::size() {return this->size;}
+    int Stack::size() {return this->_size;}
 
-    template<class T> bool Stack<T>::push(T val){
-        if(this->size == this->capacity){
+    bool Stack::push(float val){
+        if(this->_size == this->capacity){
             return false;
         }
-        this->arr[this->size] = val;
-        this->size++;
+        this->arr[this->_size] = val;
+        this->_size++;
         return true;
     }
 
-    template<class T> T Stack<T>::pop(){
-        if(this->size == 0){
-            return NULL;
+    float Stack::pop(){
+        if(this->_size == 0){
+            return 0;
         }
-        this->size--;
-        return this->arr[this->size];
+        this->_size--;
+        return this->arr[this->_size];
     }
 
-    template<class T> T Stack<T>::peak(){
-        if(this->size == 0){
-            return NULL;
+    float Stack::peak(){
+        if(this->_size == 0){
+            return 0;
         }
-        return this->arr[this->size];
+        return this->arr[this->_size];
     }
 
 }

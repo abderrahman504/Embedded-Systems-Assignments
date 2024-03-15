@@ -3,39 +3,39 @@
 
 namespace DataStructures
 {
-    template<class T> Queue<T>::Queue(int capacity){
+    Queue::Queue(int capacity){
         this->capacity = capacity;
-        this->size = 0;
-        this->arr = new T[capacity];
+        this->_size = 0;
+        this->arr = new float[capacity];
     }
 
-    template<class T> Queue<T>::~Queue() {delete[] this->arr;}
+    Queue::~Queue() {delete[] this->arr;}
 
-    template<class T> int Queue<T>::size() {return this->size;}
+    int Queue::size() {return this->_size;}
 
-    template<class T> bool Queue<T>::enqueue(T val){
-        if(this->size == this->capacity){
+    bool Queue::enqueue(float val){
+        if(this->_size == this->capacity){
             return false;
         }
-        this->arr[this->size] = val;
-        this->size++;
+        this->arr[this->_size] = val;
+        this->_size++;
         return true;
     }
 
-    template<class T> T Queue<T>::dequeue(){
-        if(this->size == 0){
-            return NULL;
+    float Queue::dequeue(){
+        if(this->_size == 0){
+            return 0;
         }
-        this->size--;
-        this.head = (this->head+1) % this->capacity;
+        this->_size--;
+        this->head = (this->head+1) % this->capacity;
         return this->arr[this->head - 1];
     }
 
-    template<class T> T Queue<T>::peak(){
-        if(this->size == 0){
-            return NULL;
+    float Queue::peak(){
+        if(this->_size == 0){
+            return 0;
         }
-        return this->arr[this->size];
+        return this->arr[this->_size];
     }
 
 }
